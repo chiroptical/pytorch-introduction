@@ -1,0 +1,304 @@
+%\PassOptionsToPackae{gray}{xcolor}
+\documentclass[hyperref={pdfpagelabels=false},12pt]{beamer}
+\setbeamertemplate{frametitle}[default][center]
+\mode<presentation>
+{
+ \usetheme{Warsaw}      % or try Darmstadt, Madrid, Warsaw, ...
+ \usecolortheme{default} % or try albatross, beaver, crane, ...
+ \usefonttheme{default}  % or try serif, structurebold, ...
+ \setbeamertemplate{footline}[frame number]
+ \setbeamertemplate{caption}[numbered]
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{helvet}
+\usepackage{listings}
+\usepackage{gensymb}
+\usepackage{array}
+\usepackage{times}
+\usepackage{xcolor}
+\usepackage{default}
+\usepackage{ulem}
+\usepackage{minted}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+% Great Commands
+\newcommand{\ig}[2]{\includegraphics[width=#1\linewidth]{#2}}
+\newcommand{\mybutton}[2]{\hyperlink{#1}{\beamerbutton{{#2}}}}
+\newcommand{\myvbutton}[2]{\vfill\hyperlink{#1}{\beamerbutton{{#2}}}}
+\newcommand{\code}[2]{\mintinline{#1}{#2}}
+\newcommand{\python}[1]{\code{python}{#1}}
+\newcommand{\bash}[1]{\code{bash}{#1}}
+\newcommand{\unnamedUrl}[1]{\href{#1}{\color{blue}{#1}}}
+\newcommand{\namedUrl}[2]{\href{#1}{\color{blue}{#2}}}
+\newcommand{\pygment}[3]{\inputminted[bgcolor=lightgray,linenos,fontsize=#1]{#2}{#3}}
+\newcommand{\pygmentLines}[5]{\inputminted[bgcolor=lightgray,linenos,fontsize=#1,firstline=#2,lastline=#3,autogobble]{#4}{#5}}
+
+% Color Scheme
+\definecolor{pittblue}{RGB}{28,41,87}
+\definecolor{pittgold}{RGB}{205,184,125}
+\setbeamercolor{structure}{fg=pittgold}
+\setbeamercolor{button}{bg=pittblue}
+
+\title[PyTorch]{{Introduction to PyTorch}}
+\author[PyTorch]{{Barry Moore II}}
+\institute[CRC]{Center for Research Computing \\ University of Pittsburgh}
+\date{}
+
+\beamertemplatenavigationsymbolsempty
+
+\begin{document}
+
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \begin{itemize}
+    \item Neurons and Automatic Differentiation
+    \item A basic model from scratch
+    \item PyTorch Dataset and DataLoader
+    \item A basic dense neural net
+    \item Convolutional neural nets and transfer learning
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Neuron}
+  \centering
+  \ig{0.75}{figures/neuron.png}
+  \begin{itemize}
+      \item $f$ is a function which takes $x$ and $y$ as input and produces $z$
+      \item The $...$ represents other neurons
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Automatic Differentiation, How?}
+  \centering
+  \ig{0.5}{figures/autograd.png}
+  \begin{itemize}
+      \item Top. Forward pass
+      \item Bottom. Backward pass
+      \item Using chain rule,
+        \begin{align*}
+          \frac{\partial L}{\partial x} &= \frac{\partial L}{\partial z} \cdot
+                    \frac{\partial z}{\partial x}
+        \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Automatic Differentiation, forward pass}
+  \begin{itemize}
+    \item Choose inputs and evaluate outputs
+      \begin{align*}
+        x &= 3 \\
+        y &= 2 \\
+        f(x, y) &= x + y \\
+        z &= x + y = 5
+      \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Automatic Differentiation, backward pass}
+  \begin{itemize}
+    \item Remember inputs and complete local partial derivatives
+      \begin{align*}
+        \frac{\partial L}{\partial z} &= 10 \\
+        \frac{\partial z}{\partial x} &= \frac{\partial x + y}{\partial x} = y \\
+        \frac{\partial z}{\partial y} &= x \\
+        \frac{\partial L}{\partial x} &= 10 * 2 = 20 \\
+        \frac{\partial L}{\partial y} &= 10 * 3 = 30 \\
+      \end{align*}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Automatic Differentiation, Exercise}
+  \begin{itemize}
+      \item Given:
+        \begin{align*}
+          f(x, w) &= x * w = \hat{y} \\
+          L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+        \end{align*}
+      \item $x$ is some input
+      \item $w$ is a linear weight
+      \item $\hat{y}$ is a prediction
+      \item $L$ is a squared difference loss function
+      \item $o$ is the output of the loss function
+      \item Try writing out the directed acyclic graph
+      \item Try computing $\frac{\partial L}{\partial w}$ when $x=2, w=1, y=4$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{PyTorch by Example, Inputs}
+  \centering
+  \pygment{\scriptsize}{python}{code/basic-training.0.py}
+  \ig{0.5}{figures/2x.png}
+\end{frame}
+
+\begin{frame}{PyTorch by Example, Forward and Loss}
+  \pygment{\scriptsize}{python}{code/basic-training.1.py}
+\end{frame}
+
+\begin{frame}{PyTorch by Example, Training}
+  \pygment{\scriptsize}{python}{code/basic-training.2.py}
+  \vspace{-0.5cm}
+  \begin{itemize}
+      \item An epoch refers to one pass of the training data
+      \item \code{python}{output.backward()} computes $\frac{\partial L}{\partial w}$
+      \item Line 8. Adjust $w$ in the opposite direction of the gradient
+      \item Line 9. Reset the gradients to zero for next epoch
+      \item $0.001$ is the learning rate, choosing a large learning will cause
+        the gradients to explode
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Basic Steps}
+  \begin{enumerate}
+      \item Generate input data
+      \item Generate your forward network (model)
+      \item Train via back propagation
+      \item Evaluate
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Step 1. Generate your input data}
+  \begin{itemize}
+    \item Start with a CSV file to describe input data
+  \end{itemize}
+  \pygmentLines{\scriptsize}{1}{5}{text}{data/mnist.csv}
+  \begin{itemize}
+    \item Handwritten image data set, e.g. \texttt{0.png}
+  \end{itemize}
+  \begin{center}
+    \ig{0.25}{figures/0.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Building an example \python{Dataset}}
+  \pygment{\scriptsize}{python}{code/basic-dataset.py}
+\end{frame}
+
+\begin{frame}{Building and example \python{DataLoader}}
+  \pygment{\scriptsize}{python}{code/basic-dataloader.py}
+  \vspace{-0.5cm}
+  \begin{itemize}
+    \item What is the type of $X$ and $y$?
+    \item What is the length of $X$ and $y$?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Let's implement a custom dataloader}
+  \begin{itemize}
+    \item Try to implement a \python{Dataset} and \python{DataLoader} which
+      compute the mean of the pixel values
+    \item Result should be $33.79$
+    \item Loading an image with Pillow:
+  \end{itemize}
+  \pygment{\scriptsize}{python}{code/pil-open.py}
+\end{frame}
+
+\begin{frame}{Mean and standard deviation implementation}
+  \begin{itemize}
+    \item Let's look at \texttt{notebooks/MeanAndStandardDeviation.ipynb} together
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Building the MNIST inputs}
+  \begin{itemize}
+    \item mean: 33.79; standard deviation: 79.17
+    \item Apply z-score to smooth out gradients
+    \item \texttt{torchvision} has a module called \texttt{transforms}
+    \begin{itemize}
+      \item \python{transforms.Compose} concatenates transforms together
+      \item \python{transforms.ToTensor} takes a PIL Image $(H, W, C)$
+        in $[0, 255]$ and converts to Tensor $(C, H, W)$
+      \item \python{transforms.Normalize} takes mean and standard deviation
+        $(C)$ and applies z-score to all pixels
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Building the MNIST inputs}
+  \begin{itemize}
+    \item Let's look at \texttt{notebooks/MNISTVanilla.ipynb} together
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Building a basic dense network}
+  \begin{itemize}
+    \item Let's build a basic neural net using \python{torch.nn.Sequential}
+  \end{itemize}
+  \pygment{\scriptsize}{python}{code/basic-dense-model.py}
+\end{frame}
+
+\begin{frame}{Optimizer and Loss Function}
+  \begin{itemize}
+    \item \namedUrl{https://arxiv.org/abs/1412.6980}{Adam Optimizer}
+    \item \namedUrl{https://pytorch.org/docs/stable/nn.html\#crossentropyloss}{Cross Entropy Loss}
+  \end{itemize}
+  \pygment{\scriptsize}{python}{code/optimizer-loss-fn.py}
+\end{frame}
+
+\begin{frame}{Training the basic dense forward network}
+  \begin{itemize}
+    \item The number of ``epochs'' describes how many times the model sees the dataset
+  \end{itemize}
+  \pygment{\scriptsize}{python}{code/training-dense-model.py}
+\end{frame}
+
+\begin{frame}{Building a basic dense network: notebook}
+  \begin{itemize}
+    \item Let's look at \texttt{notebooks/BasicDense.ipynb} together
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Convolutional neural net: a 2D convolution}
+  \centering
+  \ig{0.75}{figures/convolution.png}
+  \begin{align*}
+    \mathrm{kernel} &= (3, 3) \\
+    \mathrm{stride} &= (1, 1) \\
+    y_0 &= x_0 \times w_0 + w_1 \times x_0 + \dots \\
+    y_1 &= x_1 \times w_0 + w_2 \times x_0 + \dots
+  \end{align*}
+\end{frame}
+
+\begin{frame}{Convolutional neural net: transfer learning}
+  \begin{itemize}
+    \item ...
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{CNN via transfer learning}
+  \begin{itemize}
+    \item Most of the pretrained models require a 224x224 image
+    \item \python{pretrained=False} will yield randomly initialized weights
+  \end{itemize}
+  \pygment{\scriptsize}{python}{code/transfer-model.py}
+\end{frame}
+
+\begin{frame}{CNN via transfer learning: notebook}
+  \begin{itemize}
+    \item Let's look at \texttt{notebooks/BasicTransfer.ipynb} together
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Practical Considerations}
+  \begin{itemize}
+    \item Metrics should be on data held out from the training data
+    \item Imbalanced datasets are extremely common, trivial upsampling:
+    \begin{itemize}
+      \item Generate max count $mc$, consider number of rows $nr$ for a label
+      \item Duplicate rows up to $mc\ //\ r$
+      \item Randomly sample rows up to $mc\ \%\ r$
+      \item Combine duplicates and random samples into new dataset
+    \end{itemize}
+    \item Adding noise to images can help generalize models
+      \namedUrl{https://pytorch.org/docs/stable/torchvision/transforms.html}{Torchvision
+      transforms} has PIL \python{Image} transformations
+  \end{itemize}
+\end{frame}
+
+\end{document}
