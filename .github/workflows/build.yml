@@ -1,0 +1,11 @@
+name: Build LaTeX Document
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Use cachix
+        uses: cachix/install-nix-action@v10
+      - run: nix-shell shell.nix --run 'pdflatex -shell-escape pytorch-introduction.tex; pdflatex -shell-escape pytorch-introduction.tex; pdflatex -shell-escape pytorch-introduction.tex'
