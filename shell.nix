@@ -1,11 +1,12 @@
-{ project ? import
-  (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-20.03.tar.gz") {}
-}:
-
-project.pkgs.mkShell {
+{ packages ? import ./pkgs.nix }:
+let
+  inherit (packages) pkgs;
+in
+pkgs.mkShell {
   buildInputs =
-    [ (project.pkgs.texlive.combine {
-        inherit (project.pkgs.texlive)
+    [
+      (pkgs.texlive.combine {
+        inherit (pkgs.texlive)
           scheme-basic
           beamer
           etoolbox
@@ -21,6 +22,6 @@ project.pkgs.mkShell {
           float
           helvetic;
       })
-      project.pkgs.python38Packages.pygments
+      pkgs.python38Packages.pygments
     ];
 }
