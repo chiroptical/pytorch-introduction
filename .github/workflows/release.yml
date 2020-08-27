@@ -13,7 +13,6 @@ jobs:
         with:
           name: chiroptical
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-      - run: nix-build
       - run: nix-shell shell.nix --run 'pdflatex -shell-escape pytorch-introduction.tex; pdflatex -shell-escape pytorch-introduction.tex; pdflatex -shell-escape pytorch-introduction.tex'
       - name: Create Release
         id: create_release

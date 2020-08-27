@@ -1,4 +1,4 @@
-name: Build LaTeX Document
+name: Cache any changes to shell environment
 on: [push]
 jobs:
   build_latex:
@@ -10,4 +10,4 @@ jobs:
         with:
           name: chiroptical
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-      - run: nix-build
+      - run: nix-store --query --references $(nix-instantiate shell.nix) | xargs nix-store --realise | xargs nix-store --query --requisites | cachix push chiroptical
