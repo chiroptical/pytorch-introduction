@@ -51,15 +51,50 @@
 
 \begin{document}
 
+\begin{frame}{Getting the Slides}
+  \begin{itemize}
+    \item Download slides from \namedUrl{https://github.com/chiroptical/pytorch-introduction/releases/latest/download/pytorch-introduction.pdf}{Github}
+    \item In Chrome or Firefox (Safari and Explorer won't work),
+    \begin{itemize}
+      \item navigate to \unnamedUrl{https://hub.crc.pitt.edu}
+      \item authenticate with Pitt Passport
+      \item when you see "Server Options",
+        click big orange "Start" button (leave drop-down as "Host Process")
+      \item Wait patiently for the application to load, go to next slide
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Getting the Notebooks}
+  \begin{itemize}
+    \item Page should look like,
+  \end{itemize}
+  \centering {
+    \ig{0.75}{figures/lab.png}
+  }
+  \begin{itemize}
+    \item Click the button pointed at by the red arrow
+    \item Copy and paste this URL into the box \unnamedUrl{https://github.com/chiroptical/pytorch-introduction}
+    \item You now have the slides and the notebooks
+  \end{itemize}
+\end{frame}
+
 \begin{frame}[plain]
 \titlepage
 \end{frame}
 
+\begin{frame}{Notes...}
+  \begin{itemize}
+    \item Interrupt me at any time if something is unclear
+    \item I am learning how to teach this
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Outline}
   \begin{itemize}
-    \item Neurons and Automatic Differentiation
+    \item Neurons and automatic differentiation
     \item A basic model from scratch
-    \item PyTorch Dataset and DataLoader
+    \item PyTorch datasets and dataloaders
     \item A basic dense neural net
     \item Convolutional neural nets and transfer learning
   \end{itemize}
@@ -266,7 +301,11 @@
 
 \begin{frame}{Convolutional neural net: transfer learning}
   \begin{itemize}
-    \item ...
+    \item Constructing CNNs is an art
+    \item Use the years of research in the field to your advantage
+    \item Instead of rolling your own, use an existing one!
+    \item We'll start with the pretrained weights and adjust them to our problem
+    \item But wait, my problem is really different than ImageNet?
   \end{itemize}
 \end{frame}
 
@@ -289,9 +328,10 @@
     \item Metrics should be on data held out from the training data
     \item Imbalanced datasets are extremely common, trivial upsampling:
     \begin{itemize}
-      \item Generate max count $mc$, consider number of rows $nr$ for a label
-      \item Duplicate rows up to $mc\ //\ r$
-      \item Randomly sample rows up to $mc\ \%\ r$
+      \item Generate max (or mean) count $mc$ per label
+      \item Get the number of rows for that label $nl$
+      \item Duplicate labeled rows up to $mc\ //\ nl$
+      \item Randomly sample rows up to $mc\ \%\ l$
       \item Combine duplicates and random samples into new dataset
     \end{itemize}
     \item Adding noise to images can help generalize models

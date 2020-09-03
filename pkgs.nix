@@ -4,8 +4,8 @@ let
       (
         builtins.fetchTarball {
           name = "nixos-20.03";
-          url = "https://github.com/NixOS/nixpkgs/archive/nixos-20.03.tar.gz";
-          sha256 = "0vlnrwlxl6xf6b8rmiy7as2lhi015nklyj2xdiy3ly8xznq69ll9";
+          url = "https://github.com/NixOS/nixpkgs/archive/925ae0dee63cf2c59533a6258340812e5643428a.tar.gz";
+          sha256 = "1g3kkwyma23lkszdvgb4dn91g35b082k55ys8azc7j4s6vxpzmaw";
         }
       ) { };
 in
