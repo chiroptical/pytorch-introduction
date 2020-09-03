@@ -21,3 +21,4 @@ figures/dzdy.tex
 figures/neuron.svg
 figures/lab.svg
 result
+__pycache__/
