@@ -28,8 +28,8 @@ pkgs.stdenv.mkDerivation {
   name = "pytorch-introduction";
   buildInputs = inputs;
   src = builtins.fetchurl {
-    url = "https://github.com/chiroptical/pytorch-introduction/archive/v0.1a1.tar.gz";
-    sha256 = "0qm5xbqnwrr2ylpgpdmqnngnm4z089f2an5694ff5zb8m08dpwdq";
+    url = "https://github.com/chiroptical/pytorch-introduction/archive/v0.1.tar.gz";
+    sha256 = "0f41nvgxwxssc557sf6vp6iyyrm01wsidirbpafm5gncah7ba1nc";
   };
   buildPhase = ''
     source $stdenv/setup
