@@ -53,7 +53,9 @@
 
 \begin{frame}{Getting the Slides}
   \begin{itemize}
-    \item Download slides from \namedUrl{https://github.com/chiroptical/pytorch-introduction/releases/latest/download/pytorch-introduction.pdf}{Github}
+    \item Download slides from
+      \namedUrl{https://github.com/chiroptical/pytorch-introduction/releases/latest/download/pytorch-introduction.pdf}{https://bit.ly/320ImDH}
+      (three, two, zero, upper i, lower m, upper d, upper h)
     \item In Chrome or Firefox (Safari and Explorer won't work),
     \begin{itemize}
       \item navigate to \unnamedUrl{https://hub.crc.pitt.edu}
@@ -87,6 +89,11 @@
   \begin{itemize}
     \item Interrupt me at any time if something is unclear
     \item I am learning how to teach this
+    \item Comments here \unnamedUrl{https://forms.gle/EzNzAxFkLBXgohCL6}, e.g.
+    \begin{itemize}
+      \item Slide 10, I found the exercise confusing because \dots
+      \item Slide 13, line 9 could use more explanation
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -105,11 +112,12 @@
   \ig{0.75}{figures/neuron.png}
   \begin{itemize}
       \item $f$ is a function which takes $x$ and $y$ as input and produces $z$
-      \item The $...$ represents other neurons
+      \item The \dots represents connections to other neurons
+      \item This network of neurons forms a directed acyclic graph
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Automatic Differentiation, How?}
+\begin{frame}{Automatic differentiation: how?}
   \centering
   \ig{0.5}{figures/autograd.png}
   \begin{itemize}
@@ -123,7 +131,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Automatic Differentiation, forward pass}
+\begin{frame}{Automatic differentiation: forward pass}
   \begin{itemize}
     \item Choose inputs and evaluate outputs
       \begin{align*}
@@ -135,7 +143,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Automatic Differentiation, backward pass}
+\begin{frame}{Automatic differentiation: backward pass}
   \begin{itemize}
     \item Remember inputs and complete local partial derivatives
       \begin{align*}
@@ -148,7 +156,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Automatic Differentiation, Exercise}
+\begin{frame}{Automatic differentiation: exercise}
   \begin{itemize}
       \item Given:
         \begin{align*}
@@ -165,17 +173,17 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{PyTorch by Example, Inputs}
+\begin{frame}{PyTorch by example: inputs}
   \centering
   \pygment{\scriptsize}{python}{code/basic-training.0.py}
   \ig{0.5}{figures/2x.png}
 \end{frame}
 
-\begin{frame}{PyTorch by Example, Forward and Loss}
+\begin{frame}{PyTorch by example: forward and loss}
   \pygment{\scriptsize}{python}{code/basic-training.1.py}
 \end{frame}
 
-\begin{frame}{PyTorch by Example, Training}
+\begin{frame}{PyTorch by example: training}
   \pygment{\scriptsize}{python}{code/basic-training.2.py}
   \vspace{-0.5cm}
   \begin{itemize}
@@ -183,12 +191,18 @@
       \item \code{python}{output.backward()} computes $\frac{\partial L}{\partial w}$
       \item Line 8. Adjust $w$ in the opposite direction of the gradient
       \item Line 9. Reset the gradients to zero for next epoch
-      \item $0.001$ is the learning rate, choosing a large learning will cause
+      \item $0.001$ is the learning rate, choosing a large learning rate will cause
         the gradients to explode
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Basic Steps}
+\begin{frame}{PyTorch by example: notebook}
+  \begin{itemize}
+    \item Let's look at \texttt{notebooks/Basic.ipynb} together
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Basic steps}
   \begin{enumerate}
       \item Generate input data
       \item Generate your forward network (model)
@@ -197,7 +211,7 @@
   \end{enumerate}
 \end{frame}
 
-\begin{frame}{Step 1. Generate your input data}
+\begin{frame}{1. Generate your input data}
   \begin{itemize}
     \item Start with a CSV file to describe input data
   \end{itemize}
@@ -223,7 +237,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Let's implement a custom dataloader}
+\begin{frame}{Let's implement a custom \python{DataLoader}}
   \begin{itemize}
     \item Try to implement a \python{Dataset} and \python{DataLoader} which
       compute the mean of the pixel values
@@ -233,7 +247,7 @@
   \pygment{\scriptsize}{python}{code/pil-open.py}
 \end{frame}
 
-\begin{frame}{Mean and standard deviation implementation}
+\begin{frame}{Example implementation}
   \begin{itemize}
     \item Let's look at \texttt{notebooks/MeanAndStandardDeviation.ipynb} together
   \end{itemize}
@@ -267,7 +281,7 @@
   \pygment{\scriptsize}{python}{code/basic-dense-model.py}
 \end{frame}
 
-\begin{frame}{Optimizer and Loss Function}
+\begin{frame}{Optimizer and loss function}
   \begin{itemize}
     \item \namedUrl{https://arxiv.org/abs/1412.6980}{Adam Optimizer}
     \item \namedUrl{https://pytorch.org/docs/stable/nn.html\#crossentropyloss}{Cross Entropy Loss}
@@ -297,6 +311,9 @@
     y_0 &= x_0 \times w_0 + w_1 \times x_0 + \dots \\
     y_1 &= x_1 \times w_0 + w_2 \times x_0 + \dots
   \end{align*}
+  \begin{itemize}
+    \item Convolutional Neural Net (CNN)
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Convolutional neural net: transfer learning}
@@ -323,7 +340,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Practical Considerations}
+\begin{frame}{Practical considerations}
   \begin{itemize}
     \item Metrics should be on data held out from the training data
     \item Imbalanced datasets are extremely common, trivial upsampling:
@@ -338,6 +355,10 @@
       \namedUrl{https://pytorch.org/docs/stable/torchvision/transforms.html}{Torchvision
       transforms} has PIL \python{Image} transformations
   \end{itemize}
+\end{frame}
+
+\begin{frame}{What next?}
+  \unnamedUrl{https://forms.gle/YWN8uXhiZLkbvXBM6}
 \end{frame}
 
 \end{document}
