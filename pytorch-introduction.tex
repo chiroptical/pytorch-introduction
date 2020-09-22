@@ -60,8 +60,8 @@
     \begin{itemize}
       \item navigate to \unnamedUrl{https://hub.crc.pitt.edu}
       \item authenticate with Pitt Passport
-      \item when you see "Server Options",
-        click big orange "Start" button (leave drop-down as "Host Process")
+      \item when you see ``Server Options'',
+        click big orange ``Start'' button (leave drop-down as ``Host Process'')
       \item Wait patiently for the application to load, go to next slide
     \end{itemize}
   \end{itemize}
@@ -75,10 +75,24 @@
     \ig{0.75}{figures/lab.png}
   }
   \begin{itemize}
-    \item Click the button pointed at by the red arrow
+    \item Click the button pointed to by the arrow
+    \begin{itemize}
+      \item If you can't click it move to next slide
+    \end{itemize}
     \item Copy and paste this URL into the box \unnamedUrl{https://github.com/chiroptical/pytorch-introduction}
     \item You now have the slides and the notebooks
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Getting the Notebooks}
+  \begin{itemize}
+    \item Skip this slide if you already have slides
+    \item Click the buttons pointed to by the arrows from bottom to top
+    \item Navigate to previous slide
+  \end{itemize}
+  \centering {
+    \ig{0.75}{figures/enable.png}
+  }
 \end{frame}
 
 \begin{frame}[plain]
@@ -115,6 +129,14 @@
       \item The \dots represents connections to other neurons
       \item This network of neurons forms a directed acyclic graph
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Exercise}
+  \centering
+  \ig{0.75}{figures/neuron.png}
+  \begin{enumerate}
+    \item How would we represent $f$ in Python?
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}{Automatic differentiation: how?}
@@ -173,14 +195,53 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Why use machine learning?}
+  \begin{itemize}
+    \item Given:
+      \begin{align*}
+        f(x, w) &= x * w = \hat{y} \\
+        L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+      \end{align*}
+    \item Automatically determine $w$ by minimizing $L$ for a specific set of
+      inputs $x$ with labels $y$ using gradient descent
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{What is gradient descent?}
+  \vspace*{-0.5cm}
+  \centering
+  \ig{0.4}{figures/gradient-descent.png}
+  \begin{itemize}
+    \item Reality: $n$-dimensional parameter space
+    \item Magnitude of arrow represents learning rate
+    \item Lowest point is a local minima
+    \item Thought experiment: what would happen if the learning rate was large?
+      small?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{PyTorch by example: inputs}
   \centering
   \pygment{\scriptsize}{python}{code/basic-training.0.py}
-  \ig{0.5}{figures/2x.png}
+  \vspace{-0.75cm}
+  \begin{columns}
+    \column{0.5\textwidth}
+      \vspace{-2cm}
+      \begin{align*}
+        f(x, w) &= x * w = \hat{y} \\
+        L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+      \end{align*}
+    \column{0.5\textwidth}
+      \ig{1.0}{figures/2x.png}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{PyTorch by example: forward and loss}
   \pygment{\scriptsize}{python}{code/basic-training.1.py}
+  \begin{align*}
+    f(x, w) &= x * w = \hat{y} \\
+    L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+  \end{align*}
 \end{frame}
 
 \begin{frame}{PyTorch by example: training}
@@ -202,7 +263,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Basic steps}
+\begin{frame}{The basic steps}
   \begin{enumerate}
       \item Generate input data
       \item Generate your forward network (model)
@@ -241,7 +302,7 @@
   \begin{itemize}
     \item Try to implement a \python{Dataset} and \python{DataLoader} which
       compute the mean of the pixel values
-    \item Result should be $33.79$
+    \item Result should be $31.13$
     \item Loading an image with Pillow:
   \end{itemize}
   \pygment{\scriptsize}{python}{code/pil-open.py}
@@ -255,7 +316,7 @@
 
 \begin{frame}{Building the MNIST inputs}
   \begin{itemize}
-    \item mean: 33.79; standard deviation: 79.17
+    \item mean: $31.13$; standard deviation: $75.97$
     \item Apply z-score to smooth out gradients
     \item \texttt{torchvision} has a module called \texttt{transforms}
     \begin{itemize}
