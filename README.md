@@ -2,6 +2,8 @@
 
 Get the latest PDF: https://github.com/chiroptical/pytorch-introduction/releases/latest/download/pytorch-introduction.pdf
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/chiroptical/pytorch-introduction/master?filepath=notebooks%2FBasic.ipynb)
+
 ##### Notes
 
 - To make a new release,
