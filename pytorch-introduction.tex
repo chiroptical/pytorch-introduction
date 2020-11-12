@@ -138,45 +138,19 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Automatic differentiation: forward pass}
-  \begin{itemize}
-    \item Choose inputs and evaluate outputs
-      \begin{align*}
-        x &= 3 \\
-        y &= 2 \\
-        f(x, y) &= x + y \\
-        z &= x + y = 5
-      \end{align*}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Automatic differentiation: backward pass}
-  \begin{itemize}
-    \item Remember inputs and complete local partial derivatives
-      \begin{align*}
-        \frac{\partial L}{\partial z} &= 10 \\
-        \frac{\partial z}{\partial x} &= \frac{\partial x + y}{\partial x} = y \\
-        \frac{\partial z}{\partial y} &= x \\
-        \frac{\partial L}{\partial x} &= 10 * 2 = 20 \\
-        \frac{\partial L}{\partial y} &= 10 * 3 = 30 \\
-      \end{align*}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Automatic differentiation: exercise}
+\begin{frame}{Directed acyclic graph: exercise}
   \begin{itemize}
       \item Given:
         \begin{align*}
-          f(x, w) &= x * w = \hat{y} \\
-          L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+          f(x) &= x * w = \hat{y} \\
+          L(\hat{y}, y) &= \frac{1}{2}(\hat{y} - y)^2 = o
         \end{align*}
       \item $x$ is some input
       \item $w$ is a linear weight
       \item $\hat{y}$ is a prediction
-      \item $L$ is a squared difference loss function
+      \item $L$ is the mean squared error loss function
       \item $o$ is the output of the loss function
       \item Try writing out the directed acyclic graph
-      \item Try computing $\frac{\partial L}{\partial w}$ when $x=2, w=1, y=4$
   \end{itemize}
 \end{frame}
 
@@ -184,8 +158,8 @@
   \begin{itemize}
     \item Given:
       \begin{align*}
-        f(x, w) &= x * w = \hat{y} \\
-        L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+        f(x) &= x * w = \hat{y} \\
+        L(\hat{y}, y) &= \frac{1}{2}(\hat{y} - y)^2 = o
       \end{align*}
     \item Automatically determine $w$ by minimizing $L$ for a specific set of
       inputs $x$ with labels $y$ using gradient descent
@@ -213,8 +187,8 @@
     \column{0.5\textwidth}
       \vspace{-2cm}
       \begin{align*}
-        f(x, w) &= x * w = \hat{y} \\
-        L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+        f(x) &= x * w = \hat{y} \\
+        L(\hat{y}, y) &= \frac{1}{2}(\hat{y} - y)^2 = o
       \end{align*}
     \column{0.5\textwidth}
       \ig{1.0}{figures/2x.png}
@@ -224,8 +198,8 @@
 \begin{frame}{PyTorch by example: forward and loss}
   \pygment{\scriptsize}{python}{code/basic-training.1.py}
   \begin{align*}
-    f(x, w) &= x * w = \hat{y} \\
-    L(\hat{y}, y) &= (\hat{y} - y)^2 = o
+    f(x) &= x * w = \hat{y} \\
+    L(\hat{y}, y) &= \frac{1}{2}(\hat{y} - y)^2 = o
   \end{align*}
 \end{frame}
 
@@ -329,6 +303,7 @@
 
 \begin{frame}{An example dense network}
   \ig{1.0}{figures/dense-neural-net.png}
+  \vspace{-0.5cm}
   \begin{itemize}
     \item How many parameters are in this model?
   \end{itemize}

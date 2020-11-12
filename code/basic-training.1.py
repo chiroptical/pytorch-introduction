@@ -3,7 +3,7 @@ def model(x):
 
 
 def loss(y_hat, y):
-    return (y_hat - y) ** 2
+    return ((y_hat - y) ** 2) / 2
 
 
 y_hat = model(x[0])
